@@ -4,7 +4,7 @@
   <h1>
     TODO List
     <a class="btn btn-outline-primary"
-       href="">Add task</a>
+       href="{% url 'todo:task-create' %}">Add task</a>
   </h1>
   {% for task in task_list %}
     <h3>{{ task.content }}
@@ -28,8 +28,8 @@
       {% endfor %}
     </p>
     <p>
-      <a href="#">UPDATE</a>
-      <a href="#">DELETE</a>
+      <a href="{% url 'todo:task-update' pk=task.id %}">UPDATE</a>
+      <a href="{% url 'todo:task-delete' pk=task.id %}">DELETE</a>
     </p>
     <hr>
   {% empty %}
