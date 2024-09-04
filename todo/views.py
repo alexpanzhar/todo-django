@@ -8,6 +8,7 @@ from todo.models import Task, Tag
 
 # Create your views here.
 
+
 class TaskListView(generic.ListView):
     model = Task
     paginate_by = 5
