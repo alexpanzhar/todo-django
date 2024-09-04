@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic, View
@@ -9,12 +10,12 @@ from todo.models import Task, Tag
 # Create your views here.
 
 
-class TaskListView(generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
 
 
-class TaskCreateView(generic.CreateView):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     success_url = reverse_lazy("todo:task-list")
     template_name = "todo/task_form.html"
@@ -22,7 +23,7 @@ class TaskCreateView(generic.CreateView):
     form_class = TaskForm
 
 
-class TaskUpdateView(generic.UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     success_url = reverse_lazy("todo:task-list")
     template_name = "todo/task_form.html"
@@ -30,13 +31,13 @@ class TaskUpdateView(generic.UpdateView):
     form_class = TaskForm
 
 
-class TaskDeleteView(generic.DeleteView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("todo:task-list")
     template_name = "todo/task_confirm_delete.html"
 
 
-class TaskToggleStatusView(View):
+class TaskToggleStatusView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         task = get_object_or_404(Task, pk=pk)
@@ -45,26 +46,26 @@ class TaskToggleStatusView(View):
         return redirect("todo:task-list")
 
 
-class TagListView(generic.ListView):
+class TagListView(LoginRequiredMixin, generic.ListView):
     model = Tag
     paginate_by = 5
 
 
-class TagCreateView(generic.CreateView):
+class TagCreateView(LoginRequiredMixin, generic.CreateView):
     model = Tag
     fields = "__all__"
     success_url = reverse_lazy("todo:tag-list")
     template_name = "todo/tag_form.html"
 
 
-class TagUpdateView(generic.UpdateView):
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Tag
     fields = "__all__"
     success_url = reverse_lazy("todo:tag-list")
     template_name = "todo/tag_form.html"
 
 
-class TagDeleteView(generic.DeleteView):
+class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("todo:tag-list")
     template_name = "todo/tag_confirm_delete.html"
