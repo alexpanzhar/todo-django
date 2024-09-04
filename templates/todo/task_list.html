@@ -12,10 +12,18 @@
         <span class="badge badge-success" role="alert">
           DONE
         </span>
+        <form class="d-inline float-right" action="{% url 'todo:task-toggle-status' pk=task.id %}" method="post">
+          {% csrf_token %}
+          <input class="btn btn-secondary ml-auto" value="UNDO" type="submit">
+        </form>
       {% else %}
         <span class="badge badge-danger" role="alert">
           NOT DONE
         </span>
+        <form class="d-inline float-right" action="{% url 'todo:task-toggle-status' pk=task.id %}" method="post">
+          {% csrf_token %}
+          <input class="btn btn-success" value="COMPLETE" type="submit">
+        </form>
       {% endif %}
     </h3>
     <p>Created: {{ task.datetime }}</p>
